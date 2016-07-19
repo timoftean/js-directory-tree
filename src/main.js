@@ -1,4 +1,4 @@
-const folders =  [
+const folders =
   {
     type: 'dir',
     name: 'app',
@@ -54,8 +54,7 @@ const folders =  [
         ]
       }
     ]
-  }
-];
+  };
 
 function recurse( data) {
   var htmlRetStr = "<ul class='folder-container'>";
@@ -64,15 +63,12 @@ function recurse( data) {
       htmlRetStr += recurse( data[key] );
       htmlRetStr += '</ul></li>';
     } else if(data[key]=='dir'){
-      htmlRetStr += "<li class='folder-item'>" + data["name"]+"</li>";
-      //htmlRetStr += ("<li>"  + key+" "+data[key] + '</li  >' );
+      htmlRetStr += "<li class='folder-item'>" + data["name"]+"</li><li class='folder-wrapper'>";
     }
     else if( key=='name' && data['type']!='dir' ){
-      htmlRetStr += "<li class='file-item'>" + data['name']+"</li><li class='folder-wrapper'>";
-      //htmlRetStr += ("<li>"  + key+" "+data['name'] + '</li  >' );
+      htmlRetStr += "<li class='file-item'>" + data['name']+"</li>";
     }
-  };
-
+  }
   return( htmlRetStr );
 }
 document.getElementById("container").innerHTML=recurse(folders);
