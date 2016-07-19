@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>File structure</title>
-	<link rel="stylesheet" href="style.css" />
+    <title>File structure</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="s" href="">
 </head>
 <body>
-<div class="container">
-	<div class='widget'>
-      <input placeholder="filter...lalala" type="text"/>
+<div  class="container">
+    <div class='widget'>
+        <input placeholder="filter" id="filterInput" oninput="solve()" type="text"/>
+        <p id="write-here"></p>
     </div>
-  <ul class='folder-container'>
-  	<li class='folder-item'></li>
-  	<li class='folder-wrapper'></li>
-  </ul>
+    <ul class='folder-container'>
+        <li class='folder-item'></li>
+        <li class='folder-wrapper'></li>
+    </ul>
+    <div id="container"></div>
 </div>
+<!--<script src="main.js"></script>-->
+<script src="temp.js"></script>
 </body>
 </html>
