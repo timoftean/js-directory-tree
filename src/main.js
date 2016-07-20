@@ -56,11 +56,11 @@ const folders =
     ]
   };
 
-function recurse( data) {
+function displayJsonTree( data) {
   var htmlRetStr = "<ul class='folder-container'>";
   for (var key in data) {
     if (typeof(data[key])== 'object' && data[key] != null) {
-      htmlRetStr += recurse( data[key] );
+      htmlRetStr += displayJsonTree( data[key] );
       htmlRetStr += '</ul></li>';
     } else if(data[key]=='dir'){
       htmlRetStr += "<li class='folder-item'>" + data["name"]+"</li><li class='folder-wrapper'>";
@@ -71,51 +71,33 @@ function recurse( data) {
   }
   return( htmlRetStr );
 }
-function fn(data,string) {
+function filterJson(data,string) {
   arr = [];
   for (var key in data)
     if (typeof(data[key]) == 'object' && data[key] != null) {
-      console.log('1if.obj ' + data['children']);
       if (data['name'].indexOf(string) <= -1) {
-        console.log('2if.obj.!str ' + data['name']);
         for (var i = 0; i < data.children.length; i++) {
-          console.log('3for.child[' + i + '] ' + data.children[i]);
-          arr=arr.concat(fn(data.children[i], string));
+          arr=arr.concat(filterJson(data.children[i], string));
         }
         return arr;
       }
     }
     else {
-      if (data[key] == 'dir') {
-        console.log('4if.dir ' + data['name']);
         if (data['name'].indexOf(string) > -1) {
-          console.log('5if.dir.str ' + data['name']);
           arr = arr.concat(data);
           return arr;
         }
-      }
-      else if (key == 'name' && data['name'].indexOf(string) > -1) {
-        console.log('5if.file ' + data['name']);
-        arr = arr.concat(data);
-        return arr;
-      }
     }
-
-
 }
+document.getElementById("folders").innerHTML= displayJsonTree(folders);
 function solve() {
-  document.getElementById("container").innerHTML= recurse(fn(folders,document.getElementById('filterInput').value));
+  var toSearch=document.getElementById('filterInput').value;
+  if(toSearch.length==0){
+    document.getElementById("folders").innerHTML= displayJsonTree(folders);
+  }
+  else {
+    var str = "Searching for: " + document.getElementById('filterInput').value ;
+    document.getElementById("searchingFor").innerHTML = str;
+    document.getElementById("folders").innerHTML = displayJsonTree(filterJson(folders, document.getElementById('filterInput').value));
+  }
 }
-
-
-
-
-// document.getElementById("input").onchange=function() {resolve()};
-// function resolve(){
-//
-//   var string= document.getElementById("input");
-//   document.getElementById("container").innerHTML=recurse(folders,string.value);
-//
-//
-// }
-
