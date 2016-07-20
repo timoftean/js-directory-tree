@@ -71,11 +71,45 @@ function recurse( data) {
   }
   return( htmlRetStr );
 }
-document.getElementById("container").innerHTML=recurse(folders);
+function fn(data,string) {
+  arr = [];
+  for (var key in data)
+    if (typeof(data[key]) == 'object' && data[key] != null) {
+      console.log('1if.obj ' + data['children']);
+      if (data['name'].indexOf(string) <= -1) {
+        console.log('2if.obj.!str ' + data['name']);
+        for (var i = 0; i < data.children.length; i++) {
+          console.log('3for.child[' + i + '] ' + data.children[i]);
+          arr=arr.concat(fn(data.children[i], string));
+        }
+        return arr;
+      }
+    }
+    else {
+      if (data[key] == 'dir') {
+        console.log('4if.dir ' + data['name']);
+        if (data['name'].indexOf(string) > -1) {
+          console.log('5if.dir.str ' + data['name']);
+          arr = arr.concat(data);
+          return arr;
+        }
+      }
+      else if (key == 'name' && data['name'].indexOf(string) > -1) {
+        console.log('5if.file ' + data['name']);
+        arr = arr.concat(data);
+        return arr;
+      }
+    }
 
-// function solve() {
-//   document.getElementById("container").innerHTML= recurse(folders);
-// }
+
+}
+function solve() {
+  document.getElementById("container").innerHTML= recurse(fn(folders,document.getElementById('filterInput').value));
+}
+
+
+
+
 // document.getElementById("input").onchange=function() {resolve()};
 // function resolve(){
 //
